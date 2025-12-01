@@ -1,0 +1,33 @@
+{
+  "name": "@dice-roll-node-app/universal-sdk",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Universal SDK for dice-roll-node-app, containing shared foundational infrastrucuture and utilities",
+  "keywords": [],
+  "license": "MIT",
+  "author": "SRTd Solutions",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist pnpm.lock.yaml tsconfig.tsbuildinfo node_modules",
+    "docs": "typedoc --out docs *",
+    "format": "prettier --ignore-path=.prettierignore --config .prettierrc '**/*.{ts,tsx,json}' --write",
+    "lint": "eslint . -c eslint.config.mjs",
+    "lint:fix": "eslint . -c eslint.config.mjs --fix",
+    "test": "pnpm vitest --passWithNoTests"
+  },
+  "dependencies": {
+    "@forklaunch/common": "~0.6.22",
+    "@forklaunch/universal-sdk": "~0.7.22"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.5",
+    "@types/qs": "^6.14.0",
+    "@dice-roll-node-app/roll-dice-svc": "workspace:*"
+  },
+  "mikro-orm": {
+    "manifest_paths": [
+      "./mikro-orm.config.ts",
+      "./dist/mikro-orm.config.js"
+    ]
+  }
+}
