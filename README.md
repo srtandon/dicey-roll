@@ -292,16 +292,18 @@ VERSION=v1
 DOCS_PATH=/docs
 
 # Database
-DB_NAME=dice-roll-node-app-roll-dice-svc-dev
+DB_NAME=your-database-name
 DB_HOST=localhost
-DB_USER=postgresql
-DB_PASSWORD=postgresql
+DB_USER=your-db-user
+DB_PASSWORD=your-db-password
 DB_PORT=5432
 
 # OpenTelemetry
 OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
 OTEL_SERVICE_NAME=dice-roll-node-app-roll-dice-svc
 ```
+
+**Note:** Replace the placeholder values with your actual configuration. Never commit `.env.local` or any `.env*` files to version control.
 
 ## 🤝 Contributing
 
