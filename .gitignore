@@ -1,0 +1,37 @@
+# Repository structure file
+REPOSITORY_STRUCTURE.txt
+
+# Environment files
+.env
+.env.*
+*.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+lib/
+*.js.map
+*.d.ts.map
+
+# IDE
+.idea/
+.vscode/
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
