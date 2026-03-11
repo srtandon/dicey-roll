@@ -5,7 +5,7 @@
  */
 
 import { handlers, schemaValidator } from '@dice-roll-node-app/core';
-import { RollDiceSvcRequestMapper, RollDiceSvcResponseMapper } from '../../domain/mappers/rollDiceSvc.mappers';
+import { RollDiceSvcRequestSchema, RollDiceSvcResponseSchema } from '../../domain/schemas/rollDiceSvc.schema';
 import { ci, tokens } from '../../bootstrapper';
 
 //! resolve the dependencies
@@ -25,7 +25,7 @@ export const rollDiceSvcGet = handlers.get(
     summary: 'Gets Roll Dice Svc',
     responses: {
       // specifies the success response schema using Mapper constructs
-      200: RollDiceSvcResponseMapper.schema
+      200: RollDiceSvcResponseSchema
     }
   },
   async (req, res) => {
@@ -42,11 +42,9 @@ export const rollDiceSvcPost = handlers.post(
   {
     name: 'Roll Dice Svc Post', 
     summary: 'Posts Roll Dice Svc',
-    // specifies the request body schema using Mapper constructs
-    body: RollDiceSvcRequestMapper.schema,
+    body: RollDiceSvcRequestSchema,
     responses: {
-      // specifies the success response schema using Mapper constructs
-      200: RollDiceSvcResponseMapper.schema
+      200: RollDiceSvcResponseSchema
     }
   },
   async (req, res) => {

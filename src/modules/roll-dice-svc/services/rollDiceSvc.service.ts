@@ -6,17 +6,13 @@
 
 import { OpenTelemetryCollector } from '@forklaunch/core/http';
 import { EntityManager } from '@mikro-orm/core';
-import { SchemaValidator } from '@dice-roll-node-app/core';
 import { Metrics } from '@dice-roll-node-app/monitoring';
 import { RollDiceSvcService } from '../domain/interfaces/rollDiceSvc.interface';
 import { 
   RollDiceSvcRequestDto, 
   RollDiceSvcResponseDto 
 } from '../domain/types/rollDiceSvc.types';
-import {
-  RollDiceSvcRequestMapper,
-  RollDiceSvcResponseMapper
-} from '../domain/mappers/rollDiceSvc.mappers';
+import { RollDiceSvcRecord } from '../persistence/entities/rollDiceSvcRecord.entity';
 
 // BaseRollDiceSvcService class that implements the RollDiceSvcService interface
 export class BaseRollDiceSvcService implements RollDiceSvcService { 
@@ -35,13 +31,14 @@ export class BaseRollDiceSvcService implements RollDiceSvcService {
   rollDiceSvcPost = async (
     dto: RollDiceSvcRequestDto
   ): Promise<RollDiceSvcResponseDto> => {
-    const entity = await RollDiceSvcRequestMapper.toEntity(
-      dto,
-      this.entityManager
-    );
-    
+    const entity = this.entityManager.create(RollDiceSvcRecord, {
+      message: dto.message,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
+
     await this.entityManager.persistAndFlush(entity);
-    
-    return RollDiceSvcResponseMapper.toDto(entity);
+
+    return { message: entity.message };
   };
 }

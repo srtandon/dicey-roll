@@ -16,13 +16,13 @@
     "test": "pnpm vitest --passWithNoTests"
   },
   "dependencies": {
-    "@forklaunch/common": "~0.6.22",
-    "@forklaunch/universal-sdk": "~0.7.22"
+    "@forklaunch/common": "~0.6.33",
+    "@forklaunch/universal-sdk": "~0.7.33"
   },
   "devDependencies": {
-    "@types/express": "^5.0.5",
-    "@types/qs": "^6.14.0",
-    "@dice-roll-node-app/roll-dice-svc": "workspace:*"
+    "@dice-roll-node-app/roll-dice-svc": "workspace:*",
+    "@types/express": "^5.0.6",
+    "@types/qs": "^6.15.0"
   },
   "mikro-orm": {
     "manifest_paths": [

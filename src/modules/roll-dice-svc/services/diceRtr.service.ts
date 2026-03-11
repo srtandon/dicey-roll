@@ -14,10 +14,6 @@ import {
   DiceRtrStatsResponseDto
 } from '../domain/types/diceRtr.types';
 
-import {
-  DiceRtrRollRequestMapper,
-  DiceRtrRollResponseMapper
-} from '../domain/mappers/diceRtr.mappers';
 import { DiceRtrRecord } from '../persistence/entities/diceRtrRecord.entity';
 
 export class BaseDiceRtrService implements DiceRtrService {
@@ -42,10 +38,13 @@ export class BaseDiceRtrService implements DiceRtrService {
     }
 
     // Create entity with roll result
-    const entity = await DiceRtrRollRequestMapper.toEntity(
-      dto,
-      this.entityManager
-    );
+    const result = Math.floor(Math.random() * sides) + 1;
+    const entity = this.entityManager.create(DiceRtrRecord, {
+      dieType: dto.dieType,
+      result,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    });
 
     // Save to database
     await this.entityManager.persistAndFlush(entity);
@@ -55,7 +54,12 @@ export class BaseDiceRtrService implements DiceRtrService {
       result: entity.result
     });
 
-    return DiceRtrRollResponseMapper.toDto(entity);
+    return {
+      dieType: entity.dieType,
+      result: entity.result,
+      id: entity.id,
+      createdAt: entity.createdAt.toISOString()
+    };
   };
 
   diceRtrStats = async (): Promise<DiceRtrStatsResponseDto> => {

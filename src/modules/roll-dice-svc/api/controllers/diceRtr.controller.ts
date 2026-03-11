@@ -6,8 +6,7 @@
 
 import { handlers, schemaValidator } from '@dice-roll-node-app/core';
 import { ci, tokens } from '../../bootstrapper';
-import { DiceRtrRollRequestMapper, DiceRtrRollResponseMapper } from '../../domain/mappers/diceRtr.mappers';
-import { DiceRtrRequestSchema, DiceRtrResponseSchema, DiceRtrStatsResponseSchema } from '../../domain/schemas/diceRtr.schema';
+import { DiceRtrRequestSchema, DiceRtrResponseSchema, DiceRtrRollRequestSchema, DiceRtrRollResponseSchema, DiceRtrStatsResponseSchema } from '../../domain/schemas/diceRtr.schema';
 
 //! resolve the dependencies
 //! scopeFactory creates a new dependency injection scope for the service
@@ -61,9 +60,9 @@ export const diceRtrRoll = handlers.post(
   {
     name: 'Roll Dice',
     summary: 'Rolls a dice with specified number of sides',
-    body: DiceRtrRollRequestMapper.schema,
+    body: DiceRtrRollRequestSchema,
     responses: {
-      200: DiceRtrRollResponseMapper.schema
+      200: DiceRtrRollResponseSchema
     }
   },
   async (req, res) => {
