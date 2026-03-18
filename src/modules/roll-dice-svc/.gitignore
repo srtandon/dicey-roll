@@ -1,11 +1,30 @@
-node_modules
-.idea
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+lib/
+build/
+*.tsbuildinfo
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Test / coverage
+coverage/
+
+# MikroORM / codegen scratch
+temp/
+
+# IDE / OS
+.idea/
+.vscode/
 .DS_Store
-
-dist
-lib
-
-.vscode
-
-*dist
-*lib
+Thumbs.db

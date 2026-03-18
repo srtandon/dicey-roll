@@ -4,6 +4,7 @@ REPOSITORY_STRUCTURE.txt
 # Environment files
 .env
 .env.*
+!.env.example
 *.env
 .env.local
 .env.development
@@ -16,13 +17,27 @@ node_modules/
 # Build outputs
 dist/
 lib/
+build/
 *.js.map
 *.d.ts.map
+*.tsbuildinfo
+
+# Next.js (client/)
+.next/
+out/
+
+# Caches
+.turbo/
+.cache/
+
+# Test / coverage
+coverage/
+.nyc_output/
+*.lcov
 
 # IDE
 .idea/
 .vscode/
-.DS_Store
 
 # Logs
 *.log
@@ -34,4 +49,3 @@ pnpm-debug.log*
 # OS
 .DS_Store
 Thumbs.db
-
