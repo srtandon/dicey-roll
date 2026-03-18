@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme {
+    --font-sans: 'Inter', sans-serif;
+
+    /* Base palette */
+    --color-background: #0A0924;
+    --color-text: #ffffff;
+    --color-quaternary: #438783;
+    --color-senary: #2DA4A8;
+    --color-octonary: #DBC16A;
+
+    /* Semantic tokens */
+    --color-panel: rgba(30, 28, 70, 0.85);
+    --color-panel-border: rgba(45, 164, 168, 0.35);
+    --color-panel-glow: rgba(45, 164, 168, 0.15);
+    --color-die-active: #2DA4A8;
+    --color-die-hover: rgba(67, 135, 131, 0.4);
+    --color-die-idle: rgba(45, 164, 168, 0.12);
+    --color-roll-btn: #2DA4A8;
+    --color-roll-btn-hover: #438783;
+    --color-chart-bar: #DBC16A;
+    --color-chart-bar-dim: rgba(219, 193, 106, 0.35);
+    --color-muted: rgba(255, 255, 255, 0.45);
+    --color-divider: rgba(45, 164, 168, 0.2);
+}
+
+body {
+    @apply bg-background text-text;
+    font-family: var(--font-sans);
+}
+
+* {
+    box-sizing: border-box;
+}

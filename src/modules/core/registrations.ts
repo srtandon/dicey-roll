@@ -33,8 +33,8 @@ import {
   unknown,
   uri,
   uuid,
-  void_,
-} from "@forklaunch/validator/zod";
+  void_
+} from '@forklaunch/validator/zod';
 import {
   ExpressApplicationOptions,
   forklaunchExpress,
@@ -42,8 +42,8 @@ import {
   handlers,
   NextFunction,
   Request,
-  Response,
-} from "@forklaunch/express";
+  Response
+} from '@forklaunch/express';
 
 export const schemaValidator = SchemaValidator();
 export type SchemaValidator = ReturnType<typeof SchemaValidator>;
@@ -87,8 +87,8 @@ export {
 };
 
 export const IdSchema = {
-  id: string,
+  id: string
 };
 export const IdsSchema = {
-  ids: array(string),
+  ids: array(string)
 };

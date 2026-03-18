@@ -4,38 +4,53 @@
  * This is an auto-generated file. Modifications are encouraged but may inhibit automated upgrades.
  */
 
-import { number, record, string } from '@dice-roll-node-app/core';
+import { number, optional, record, string } from '@dice-roll-node-app/core';
 
 // idiomatic validator schema defines the request schema. This should extend the request type
 export const DiceRtrRequestSchema = {
-    message: string
+  message: string
 };
 
 // idiomatic validator schema defines the response schema. This should extend the response type
 export const DiceRtrResponseSchema = {
-    message: string
+  message: string
 };
 
 // Request schema for rolling dice
 export const DiceRtrRollRequestSchema = {
-    dieType: string // e.g., "d4", "d6", "d12", "d20"
+  dieType: string, // e.g., "d4", "d6", "d12", "d20"
+  sessionId: string
 };
 
 // Response schema for roll result
 export const DiceRtrRollResponseSchema = {
-    dieType: string,
-    result: number,
-    id: string,
-    createdAt: string
+  dieType: string,
+  result: number,
+  id: string,
+  sessionId: string,
+  createdAt: string
+};
+
+// Response schema for session creation
+export const DiceRtrCreateSessionResponseSchema = {
+  sessionId: string,
+  createdAt: string
+};
+
+// Query schema for stats (optional session filter)
+export const DiceRtrStatsQuerySchema = {
+  scope: optional(string), // "all" | "session"
+  sessionId: optional(string)
 };
 
 // Response schema for stats
 export const DiceRtrStatsResponseSchema = {
-    totalRolls: number,
-    byDieType: record(string, {
-        count: number,
-        average: number,
-        min: number,
-        max: number
-    })
+  totalRolls: number,
+  byDieType: record(string, {
+    count: number,
+    average: number,
+    min: number,
+    max: number,
+    distribution: record(string, number)
+  })
 };

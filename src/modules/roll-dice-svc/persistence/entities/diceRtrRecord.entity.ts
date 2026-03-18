@@ -5,15 +5,17 @@
  */
 
 import { SqlBaseEntity } from '@dice-roll-node-app/core';
-import { Entity, Property } from '@mikro-orm/core';
+import { Entity, Index, Property } from '@mikro-orm/core';
 
-// Entity class that defines the structure of the DiceRtrRecordtable
 @Entity()
 export class DiceRtrRecord extends SqlBaseEntity {
-  // message property that stores a message string
   @Property()
   dieType!: string; // e.g., "d4", "d6", "d8", "d10", "d12", "d20"
 
   @Property()
   result!: number; // The rolled value (1 to dieType number)
+
+  @Property()
+  @Index()
+  sessionId!: string; // UUID grouping rolls within a session
 }

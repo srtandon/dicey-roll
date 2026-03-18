@@ -6,10 +6,19 @@
 
 import { Schema } from '@forklaunch/validator';
 import { SchemaValidator } from '@dice-roll-node-app/core';
-import { RollDiceSvcRequestSchema, RollDiceSvcResponseSchema } from '../schemas/rollDiceSvc.schema';
+import {
+  RollDiceSvcRequestSchema,
+  RollDiceSvcResponseSchema
+} from '../schemas/rollDiceSvc.schema';
 
 // Exported type that matches the request schema
-export type RollDiceSvcRequestDto = Schema<typeof RollDiceSvcRequestSchema, SchemaValidator>;
+export type RollDiceSvcRequestDto = Schema<
+  typeof RollDiceSvcRequestSchema,
+  SchemaValidator
+>;
 
 // Exported type that matches the response schema
-export type RollDiceSvcResponseDto = Schema<typeof RollDiceSvcResponseSchema, SchemaValidator>;
+export type RollDiceSvcResponseDto = Schema<
+  typeof RollDiceSvcResponseSchema,
+  SchemaValidator
+>;

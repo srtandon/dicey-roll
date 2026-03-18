@@ -15,16 +15,10 @@ import {
 
 describe('RollDiceSvc Routes E2E Tests', () => {
   let orm: TestSetupResult['orm'];
-  
-  
-  
 
   beforeAll(async () => {
     const setup = await setupTestDatabase();
     orm = setup.orm;
-    
-    
-    
   }, 60000);
 
   beforeEach(async () => {
@@ -40,9 +34,8 @@ describe('RollDiceSvc Routes E2E Tests', () => {
 
   describe('GET /rollDiceSvc - rollDiceSvcGet', () => {
     it('should handle rollDiceSvc get request successfully', async () => {
-      const { rollDiceSvcGetRoute } = await import(
-        '../api/routes/rollDiceSvc.routes'
-      );
+      const { rollDiceSvcGetRoute } =
+        await import('../api/routes/rollDiceSvc.routes');
 
       const response = await rollDiceSvcGetRoute.sdk.rollDiceSvcGet();
 
@@ -53,9 +46,8 @@ describe('RollDiceSvc Routes E2E Tests', () => {
 
   describe('POST /rollDiceSvc - rollDiceSvcPost', () => {
     it('should handle rollDiceSvc request successfully', async () => {
-      const { rollDiceSvcPostRoute } = await import(
-        '../api/routes/rollDiceSvc.routes'
-      );
+      const { rollDiceSvcPostRoute } =
+        await import('../api/routes/rollDiceSvc.routes');
 
       const response = await rollDiceSvcPostRoute.sdk.rollDiceSvcPost({
         body: mockRollDiceSvcData
@@ -69,9 +61,8 @@ describe('RollDiceSvc Routes E2E Tests', () => {
     });
 
     it('should handle validation errors', async () => {
-      const { rollDiceSvcPostRoute } = await import(
-        '../api/routes/rollDiceSvc.routes'
-      );
+      const { rollDiceSvcPostRoute } =
+        await import('../api/routes/rollDiceSvc.routes');
 
       const invalidData = {
         message: ''
@@ -86,12 +77,10 @@ describe('RollDiceSvc Routes E2E Tests', () => {
         expect(error).toBeDefined();
       }
     });
-    
 
     it('should persist data to database', async () => {
-      const { rollDiceSvcPostRoute } = await import(
-        '../api/routes/rollDiceSvc.routes'
-      );
+      const { rollDiceSvcPostRoute } =
+        await import('../api/routes/rollDiceSvc.routes');
 
       await rollDiceSvcPostRoute.sdk.rollDiceSvcPost({
         body: mockRollDiceSvcData
@@ -99,9 +88,8 @@ describe('RollDiceSvc Routes E2E Tests', () => {
 
       if (!orm) throw new Error('ORM not initialized');
       const em = orm.em.fork();
-      const { RollDiceSvcRecord } = await import(
-        '../persistence/entities/rollDiceSvcRecord.entity'
-      );
+      const { RollDiceSvcRecord } =
+        await import('../persistence/entities/rollDiceSvcRecord.entity');
 
       const records = await em.find(RollDiceSvcRecord, {
         message: mockRollDiceSvcData.message
@@ -109,6 +97,5 @@ describe('RollDiceSvc Routes E2E Tests', () => {
 
       expect(records.length).toBeGreaterThan(0);
     });
-    
   });
 });

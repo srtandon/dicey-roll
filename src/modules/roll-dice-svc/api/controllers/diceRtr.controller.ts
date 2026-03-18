@@ -6,10 +6,16 @@
 
 import { handlers, schemaValidator } from '@dice-roll-node-app/core';
 import { ci, tokens } from '../../bootstrapper';
-import { DiceRtrRequestSchema, DiceRtrResponseSchema, DiceRtrRollRequestSchema, DiceRtrRollResponseSchema, DiceRtrStatsResponseSchema } from '../../domain/schemas/diceRtr.schema';
+import {
+  DiceRtrCreateSessionResponseSchema,
+  DiceRtrRequestSchema,
+  DiceRtrResponseSchema,
+  DiceRtrRollRequestSchema,
+  DiceRtrRollResponseSchema,
+  DiceRtrStatsQuerySchema,
+  DiceRtrStatsResponseSchema
+} from '../../domain/schemas/diceRtr.schema';
 
-//! resolve the dependencies
-//! scopeFactory creates a new dependency injection scope for the service
 const scopeFactory = () => ci.createScope();
 // serviceFactory returns a new service instance on demand
 const serviceFactory = ci.scopedResolver(tokens.DiceRtrService);
@@ -27,10 +33,8 @@ export const diceRtrGet = handlers.get(
       200: DiceRtrResponseSchema
     }
   },
-  async (req, res) => {
-    res.status(200).json({
-      message: 'hello, world!'
-    });
+  async (_req, res) => {
+    res.status(200).json({ message: 'hello, world!' });
   }
 );
 
@@ -46,10 +50,26 @@ export const diceRtrPost = handlers.post(
       200: DiceRtrResponseSchema
     }
   },
-  async (req, res) => {
-    res.status(200).json({
-      message: 'hello, world!'
-    });
+  async (_req, res) => {
+    res.status(200).json({ message: 'hello, world!' });
+  }
+);
+
+// Session creation endpoint
+export const diceRtrCreateSession = handlers.post(
+  schemaValidator,
+  '/session',
+  {
+    name: 'Create Dice Session',
+    summary: 'Creates a new rolling session and returns its ID',
+    responses: {
+      200: DiceRtrCreateSessionResponseSchema
+    }
+  },
+  async (_req, res) => {
+    res
+      .status(200)
+      .json(await serviceFactory(scopeFactory()).diceRtrCreateSession());
   }
 );
 
@@ -59,33 +79,39 @@ export const diceRtrRoll = handlers.post(
   '/roll',
   {
     name: 'Roll Dice',
-    summary: 'Rolls a dice with specified number of sides',
+    summary: 'Rolls a die with the specified number of sides within a session',
     body: DiceRtrRollRequestSchema,
     responses: {
       200: DiceRtrRollResponseSchema
     }
   },
   async (req, res) => {
-    res.status(200).json(
-      await serviceFactory(scopeFactory()).diceRtrRoll(req.body)
-    );
+    res
+      .status(200)
+      .json(await serviceFactory(scopeFactory()).diceRtrRoll(req.body));
   }
 );
 
-// Stats endpoint
+// Stats endpoint — supports ?scope=session&sessionId=<id> or ?scope=all (default)
 export const diceRtrStats = handlers.get(
   schemaValidator,
   '/stats',
   {
     name: 'Get Dice Roll Statistics',
-    summary: 'Returns statistics about all dice rolls',
+    summary:
+      'Returns roll statistics and histogram data, optionally scoped to a session',
+    query: DiceRtrStatsQuerySchema,
     responses: {
       200: DiceRtrStatsResponseSchema
     }
   },
   async (req, res) => {
-    res.status(200).json(
-      await serviceFactory(scopeFactory()).diceRtrStats()
-    );
+    res
+      .status(200)
+      .json(
+        await serviceFactory(scopeFactory()).diceRtrStats(
+          req.query as { scope?: string; sessionId?: string }
+        )
+      );
   }
 );

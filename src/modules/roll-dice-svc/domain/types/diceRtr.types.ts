@@ -6,15 +6,50 @@
 
 import { SchemaValidator } from '@dice-roll-node-app/core';
 import { Schema } from '@forklaunch/validator';
-import { DiceRtrRequestSchema, DiceRtrResponseSchema, DiceRtrRollRequestSchema, DiceRtrRollResponseSchema, DiceRtrStatsResponseSchema } from '../schemas/diceRtr.schema';
+import {
+  DiceRtrCreateSessionResponseSchema,
+  DiceRtrRequestSchema,
+  DiceRtrResponseSchema,
+  DiceRtrRollRequestSchema,
+  DiceRtrRollResponseSchema,
+  DiceRtrStatsQuerySchema,
+  DiceRtrStatsResponseSchema
+} from '../schemas/diceRtr.schema';
 
 // Exported type that matches the request schema
-export type DiceRtrRequestDto = Schema<typeof DiceRtrRequestSchema, SchemaValidator>;
+export type DiceRtrRequestDto = Schema<
+  typeof DiceRtrRequestSchema,
+  SchemaValidator
+>;
 
 // Exported type that matches the response schema
-export type DiceRtrResponseDto = Schema<typeof DiceRtrResponseSchema, SchemaValidator>;
+export type DiceRtrResponseDto = Schema<
+  typeof DiceRtrResponseSchema,
+  SchemaValidator
+>;
 
 // Exported types for roll operations
-export type DiceRtrRollRequestDto = Schema<typeof DiceRtrRollRequestSchema, SchemaValidator>;
-export type DiceRtrRollResponseDto = Schema<typeof DiceRtrRollResponseSchema, SchemaValidator>;
-export type DiceRtrStatsResponseDto = Schema<typeof DiceRtrStatsResponseSchema, SchemaValidator>;
+export type DiceRtrRollRequestDto = Schema<
+  typeof DiceRtrRollRequestSchema,
+  SchemaValidator
+>;
+export type DiceRtrRollResponseDto = Schema<
+  typeof DiceRtrRollResponseSchema,
+  SchemaValidator
+>;
+
+// Session types
+export type DiceRtrCreateSessionResponseDto = Schema<
+  typeof DiceRtrCreateSessionResponseSchema,
+  SchemaValidator
+>;
+
+// Stats types
+export type DiceRtrStatsQueryDto = Schema<
+  typeof DiceRtrStatsQuerySchema,
+  SchemaValidator
+>;
+export type DiceRtrStatsResponseDto = Schema<
+  typeof DiceRtrStatsResponseSchema,
+  SchemaValidator
+>;

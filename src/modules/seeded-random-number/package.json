@@ -1,0 +1,19 @@
+{
+  "name": "@dice-roll-node-app/seeded-random-number",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "logic for creating a seeded random number based on date time",
+  "keywords": [],
+  "license": "MIT",
+  "author": "SRTd Solutions",
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist lib pnpm.lock.yaml tsconfig.tsbuildinfo node_modules",
+    "docs": "typedoc --out docs *",
+    "format": "prettier --ignore-path=.prettierignore --config .prettierrc '**/*.{ts,tsx,json}' --write",
+    "lint": "eslint . -c eslint.config.mjs",
+    "lint:fix": "eslint . -c eslint.config.mjs --fix",
+    "test": "pnpm vitest --passWithNoTests"
+  },
+  "devDependencies": {}
+}

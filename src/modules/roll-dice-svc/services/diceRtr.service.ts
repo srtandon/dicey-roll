@@ -5,15 +5,18 @@
  */
 
 import { Metrics } from '@dice-roll-node-app/monitoring';
+import { rollDieWithSeed } from '@dice-roll-node-app/seeded-random-number';
 import { OpenTelemetryCollector } from '@forklaunch/core/http';
 import { EntityManager } from '@mikro-orm/core';
+import { randomUUID } from 'crypto';
 import { DiceRtrService } from '../domain/interfaces/diceRtr.interface';
 import {
+  DiceRtrCreateSessionResponseDto,
   DiceRtrRollRequestDto,
   DiceRtrRollResponseDto,
+  DiceRtrStatsQueryDto,
   DiceRtrStatsResponseDto
 } from '../domain/types/diceRtr.types';
-
 import { DiceRtrRecord } from '../persistence/entities/diceRtrRecord.entity';
 
 export class BaseDiceRtrService implements DiceRtrService {
@@ -28,54 +31,94 @@ export class BaseDiceRtrService implements DiceRtrService {
     this.openTelemetryCollector = openTelemetryCollector;
   }
 
+  diceRtrCreateSession = async (): Promise<DiceRtrCreateSessionResponseDto> => {
+    const sessionId = randomUUID();
+    const createdAt = new Date();
+
+    this.openTelemetryCollector.info('Session created', { sessionId });
+
+    return {
+      sessionId,
+      createdAt: createdAt.toISOString()
+    };
+  };
+
   diceRtrRoll = async (
     dto: DiceRtrRollRequestDto
   ): Promise<DiceRtrRollResponseDto> => {
-    // Validate die type
     const sides = parseInt(dto.dieType.replace('d', ''));
     if (isNaN(sides) || sides < 2) {
-      throw new Error(`Invalid die type: ${dto.dieType}. Use format d4, d6, d12, d20, etc.`);
+      throw new Error(
+        `Invalid die type: ${dto.dieType}. Use format d4, d6, d12, d20, etc.`
+      );
     }
 
-    // Create entity with roll result
-    const result = Math.floor(Math.random() * sides) + 1;
+    const now = new Date();
+
+    // Deterministic roll: seed comes from the shared seeded-random-number library.
+    // Seed inputs: UTC epoch ms + sessionId + dieType — fully auditable from DB.
+    const result = rollDieWithSeed({
+      timestampUtcMs: now.getTime(),
+      sessionId: dto.sessionId,
+      dieType: dto.dieType,
+      sides
+    });
+
     const entity = this.entityManager.create(DiceRtrRecord, {
       dieType: dto.dieType,
       result,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      sessionId: dto.sessionId,
+      createdAt: now,
+      updatedAt: now
     });
 
-    // Save to database
     await this.entityManager.persistAndFlush(entity);
 
     this.openTelemetryCollector.info('Dice rolled', {
       dieType: dto.dieType,
-      result: entity.result
+      result: entity.result,
+      sessionId: dto.sessionId
     });
 
     return {
       dieType: entity.dieType,
       result: entity.result,
       id: entity.id,
+      sessionId: entity.sessionId,
       createdAt: entity.createdAt.toISOString()
     };
   };
 
-  diceRtrStats = async (): Promise<DiceRtrStatsResponseDto> => {
-    // Get all rolls
-    const allRolls = await this.entityManager.find(DiceRtrRecord, {});
+  diceRtrStats = async (
+    query?: DiceRtrStatsQueryDto
+  ): Promise<DiceRtrStatsResponseDto> => {
+    const isSessionScope = query?.scope === 'session' && query?.sessionId;
 
-    // Group by die type and calculate stats
-    const byDieType: Record<string, { count: number; average: number; min: number; max: number }> = {};
+    const rolls = isSessionScope
+      ? await this.entityManager.find(DiceRtrRecord, {
+          sessionId: query!.sessionId
+        })
+      : await this.entityManager.find(DiceRtrRecord, {});
 
-    allRolls.forEach(roll => {
+    const byDieType: Record<
+      string,
+      {
+        count: number;
+        average: number;
+        min: number;
+        max: number;
+        distribution: Record<string, number>;
+      }
+    > = {};
+
+    rolls.forEach((roll) => {
       if (!byDieType[roll.dieType]) {
         byDieType[roll.dieType] = {
           count: 0,
           average: 0,
           min: Infinity,
-          max: -Infinity
+          max: -Infinity,
+          distribution: {}
         };
       }
 
@@ -83,17 +126,19 @@ export class BaseDiceRtrService implements DiceRtrService {
       stats.count++;
       stats.min = Math.min(stats.min, roll.result);
       stats.max = Math.max(stats.max, roll.result);
+
+      const face = String(roll.result);
+      stats.distribution[face] = (stats.distribution[face] ?? 0) + 1;
     });
 
-    // Calculate averages
-    Object.keys(byDieType).forEach(dieType => {
-      const rolls = allRolls.filter(r => r.dieType === dieType);
-      const sum = rolls.reduce((acc, r) => acc + r.result, 0);
-      byDieType[dieType].average = sum / rolls.length;
+    Object.keys(byDieType).forEach((dieType) => {
+      const dieRolls = rolls.filter((r) => r.dieType === dieType);
+      const sum = dieRolls.reduce((acc, r) => acc + r.result, 0);
+      byDieType[dieType].average = sum / dieRolls.length;
     });
 
     return {
-      totalRolls: allRolls.length,
+      totalRolls: rolls.length,
       byDieType
     };
   };

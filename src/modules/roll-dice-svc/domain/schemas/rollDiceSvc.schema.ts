@@ -7,11 +7,11 @@
 import { string } from '@dice-roll-node-app/core';
 
 // idiomatic validator schema defines the request schema. This should extend the request type
-export const RollDiceSvcRequestSchema = { 
-    message: string
+export const RollDiceSvcRequestSchema = {
+  message: string
 };
 
 // idiomatic validator schema defines the response schema. This should extend the response type
 export const RollDiceSvcResponseSchema = {
-    message: string
+  message: string
 };

@@ -5,7 +5,10 @@
  */
 
 import { handlers, schemaValidator } from '@dice-roll-node-app/core';
-import { RollDiceSvcRequestSchema, RollDiceSvcResponseSchema } from '../../domain/schemas/rollDiceSvc.schema';
+import {
+  RollDiceSvcRequestSchema,
+  RollDiceSvcResponseSchema
+} from '../../domain/schemas/rollDiceSvc.schema';
 import { ci, tokens } from '../../bootstrapper';
 
 //! resolve the dependencies
@@ -16,7 +19,7 @@ const serviceFactory = ci.scopedResolver(tokens.RollDiceSvcService);
 // openTelemetryCollector for collecting logs and metrics with appropriate context
 const openTelemetryCollector = ci.resolve(tokens.OpenTelemetryCollector);
 
-  // GET endpoint handler that returns a simple message
+// GET endpoint handler that returns a simple message
 export const rollDiceSvcGet = handlers.get(
   schemaValidator,
   '/',
@@ -40,7 +43,7 @@ export const rollDiceSvcPost = handlers.post(
   schemaValidator,
   '/',
   {
-    name: 'Roll Dice Svc Post', 
+    name: 'Roll Dice Svc Post',
     summary: 'Posts Roll Dice Svc',
     body: RollDiceSvcRequestSchema,
     responses: {
@@ -48,13 +51,9 @@ export const rollDiceSvcPost = handlers.post(
     }
   },
   async (req, res) => {
-    res
-      .status(200)
-      .json(
-        // constructs a new service instance using the scopeFactory and calls the rollDiceSvcPost method
-        await serviceFactory(
-          scopeFactory()
-        ).rollDiceSvcPost(req.body)
-      );
+    res.status(200).json(
+      // constructs a new service instance using the scopeFactory and calls the rollDiceSvcPost method
+      await serviceFactory(scopeFactory()).rollDiceSvcPost(req.body)
+    );
   }
 );

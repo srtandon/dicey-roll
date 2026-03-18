@@ -4,10 +4,10 @@
  * This is an auto-generated file. Modifications are encouraged but may inhibit automated upgrades.
  */
 
-import { EntityManager } from "@mikro-orm/core";
-import { Seeder } from "@mikro-orm/seeder";
-import { diceRtrRecord } from "../seed.data";
-import { DiceRtrRecord } from "../entities/diceRtrRecord.entity";
+import { EntityManager } from '@mikro-orm/core';
+import { Seeder } from '@mikro-orm/seeder';
+import { diceRtrRecord } from '../seed.data';
+import { DiceRtrRecord } from '../entities/diceRtrRecord.entity';
 
 export class DiceRtrRecordSeeder extends Seeder {
   async run(em: EntityManager): Promise<void> {

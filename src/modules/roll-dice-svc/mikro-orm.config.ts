@@ -4,7 +4,11 @@
  * This is an auto-generated file. Modifications are encouraged but may inhibit automated upgrades.
  */
 
-import { createConfigInjector, getEnvVar, Lifetime } from '@forklaunch/core/services';
+import {
+  createConfigInjector,
+  getEnvVar,
+  Lifetime
+} from '@forklaunch/core/services';
 import { Migrator } from '@mikro-orm/migrations';
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { number, SchemaValidator, string } from '@dice-roll-node-app/core';
@@ -17,41 +21,38 @@ import * as entities from './persistence/entities';
 dotenv.config({ path: getEnvVar('DOTENV_FILE_PATH') });
 
 //! Create the config injector
-const configInjector = createConfigInjector(
-  SchemaValidator(),
-  {
-    DB_NAME: {
-      lifetime: Lifetime.Singleton,
-      type: string,
-      value: getEnvVar('DB_NAME')
-    },
-    DB_HOST: {
-      lifetime: Lifetime.Singleton,
-      type: string,
-      value: getEnvVar('DB_HOST')
-    },
-    DB_USER: {
-      lifetime: Lifetime.Singleton,
-      type: string,
-      value: getEnvVar('DB_USER')
-    },
-    DB_PASSWORD: {
-      lifetime: Lifetime.Singleton,
-      type: string,
-      value: getEnvVar('DB_PASSWORD')
-    },
-    DB_PORT: {
-      lifetime: Lifetime.Singleton,
-      type: number,
-      value: Number(getEnvVar('DB_PORT'))
-    }, 
-    NODE_ENV: {
-      lifetime: Lifetime.Singleton,
-      type: string,
-      value: getEnvVar('NODE_ENV')
-    }
+const configInjector = createConfigInjector(SchemaValidator(), {
+  DB_NAME: {
+    lifetime: Lifetime.Singleton,
+    type: string,
+    value: getEnvVar('DB_NAME')
+  },
+  DB_HOST: {
+    lifetime: Lifetime.Singleton,
+    type: string,
+    value: getEnvVar('DB_HOST')
+  },
+  DB_USER: {
+    lifetime: Lifetime.Singleton,
+    type: string,
+    value: getEnvVar('DB_USER')
+  },
+  DB_PASSWORD: {
+    lifetime: Lifetime.Singleton,
+    type: string,
+    value: getEnvVar('DB_PASSWORD')
+  },
+  DB_PORT: {
+    lifetime: Lifetime.Singleton,
+    type: number,
+    value: Number(getEnvVar('DB_PORT'))
+  },
+  NODE_ENV: {
+    lifetime: Lifetime.Singleton,
+    type: string,
+    value: getEnvVar('NODE_ENV')
   }
-);
+});
 
 //! Validate the config injector
 export const validConfigInjector = configInjector.validateConfigSingletons(
@@ -62,26 +63,14 @@ const tokens = validConfigInjector.tokens();
 //! Define the mikro-orm options config
 const mikroOrmOptionsConfig = defineConfig({
   driver: PostgreSqlDriver,
-  dbName: validConfigInjector.resolve(
-    tokens.DB_NAME
-  ),
-  host: validConfigInjector.resolve(
-    tokens.DB_HOST
-  ),
-  user: validConfigInjector.resolve(
-    tokens.DB_USER
-  ),
-  password: validConfigInjector.resolve(
-    tokens.DB_PASSWORD
-  ),
-  port: validConfigInjector.resolve(
-    tokens.DB_PORT
-  ),
+  dbName: validConfigInjector.resolve(tokens.DB_NAME),
+  host: validConfigInjector.resolve(tokens.DB_HOST),
+  user: validConfigInjector.resolve(tokens.DB_USER),
+  password: validConfigInjector.resolve(tokens.DB_PASSWORD),
+  port: validConfigInjector.resolve(tokens.DB_PORT),
   entities: Object.values(entities),
   metadataProvider: TsMorphMetadataProvider,
-  debug: validConfigInjector.resolve(
-    tokens.NODE_ENV
-  ) === 'development',
+  debug: validConfigInjector.resolve(tokens.NODE_ENV) === 'development',
   extensions: [Migrator],
   discovery: {
     getMappedType(type: string, platform: Platform) {

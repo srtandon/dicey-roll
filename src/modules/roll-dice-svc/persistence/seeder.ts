@@ -4,14 +4,14 @@
  * This is an auto-generated file. Modifications are encouraged but may inhibit automated upgrades.
  */
 
-import { EntityManager } from "@mikro-orm/core";
-import { Seeder } from "@mikro-orm/seeder";
-import { validConfigInjector } from "../mikro-orm.config";
-import * as seeders from "./seeders";
+import { EntityManager } from '@mikro-orm/core';
+import { Seeder } from '@mikro-orm/seeder';
+import { validConfigInjector } from '../mikro-orm.config';
+import * as seeders from './seeders';
 
 export class DatabaseSeeder extends Seeder {
   run(em: EntityManager): Promise<void> {
-    if (validConfigInjector.resolve("NODE_ENV") === "development") {
+    if (validConfigInjector.resolve('NODE_ENV') === 'development') {
       return this.call(em, Object.values(seeders));
     }
     return Promise.resolve();

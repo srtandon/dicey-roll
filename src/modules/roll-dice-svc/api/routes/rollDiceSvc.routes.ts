@@ -5,9 +5,11 @@
  */
 
 import { forklaunchRouter, schemaValidator } from '@dice-roll-node-app/core';
-import { rollDiceSvcGet, rollDiceSvcPost } from '../controllers/rollDiceSvc.controller';
+import {
+  rollDiceSvcGet,
+  rollDiceSvcPost
+} from '../controllers/rollDiceSvc.controller';
 import { ci, tokens } from '../../bootstrapper';
-
 
 // resolve the dependencies
 const openTelemetryCollector = ci.resolve(tokens.OpenTelemetryCollector);
@@ -15,10 +17,13 @@ const openTelemetryCollector = ci.resolve(tokens.OpenTelemetryCollector);
 // defines the router for the rollDiceSvc routes
 export const rollDiceSvcRouter = forklaunchRouter(
   '/roll-dice-svc',
-  schemaValidator, 
+  schemaValidator,
   openTelemetryCollector
 );
 
 // mount the routes
 export const rollDiceSvcGetRoute = rollDiceSvcRouter.get('/', rollDiceSvcGet);
-export const rollDiceSvcPostRoute = rollDiceSvcRouter.post('/', rollDiceSvcPost);
+export const rollDiceSvcPostRoute = rollDiceSvcRouter.post(
+  '/',
+  rollDiceSvcPost
+);

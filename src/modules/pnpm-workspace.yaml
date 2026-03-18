@@ -7,3 +7,4 @@ packages:
 - monitoring
 - universal-sdk
 - roll-dice-svc
+- seeded-random-number

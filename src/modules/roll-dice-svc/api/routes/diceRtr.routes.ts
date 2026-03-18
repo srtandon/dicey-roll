@@ -6,12 +6,16 @@
 
 import { forklaunchRouter, schemaValidator } from '@dice-roll-node-app/core';
 import { ci, tokens } from '../../bootstrapper';
-import { diceRtrGet, diceRtrPost, diceRtrRoll, diceRtrStats } from '../controllers/diceRtr.controller';
-
+import {
+  diceRtrCreateSession,
+  diceRtrGet,
+  diceRtrPost,
+  diceRtrRoll,
+  diceRtrStats
+} from '../controllers/diceRtr.controller';
 
 // resolve the dependencies
 const openTelemetryCollector = ci.resolve(tokens.OpenTelemetryCollector);
-
 
 export const diceRtrRouter = forklaunchRouter(
   '/dice-rtr',
@@ -22,5 +26,9 @@ export const diceRtrRouter = forklaunchRouter(
 // Mount the routes
 export const diceRtrGetRoute = diceRtrRouter.get('/', diceRtrGet);
 export const diceRtrPostRoute = diceRtrRouter.post('/', diceRtrPost);
+export const diceRtrSessionRoute = diceRtrRouter.post(
+  '/session',
+  diceRtrCreateSession
+);
 export const diceRtrRollRoute = diceRtrRouter.post('/roll', diceRtrRoll);
 export const diceRtrStatsRoute = diceRtrRouter.get('/stats', diceRtrStats);

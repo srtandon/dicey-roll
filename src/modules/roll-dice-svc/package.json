@@ -26,6 +26,7 @@
   "dependencies": {
     "@dice-roll-node-app/core": "workspace:*",
     "@dice-roll-node-app/monitoring": "workspace:*",
+    "@dice-roll-node-app/seeded-random-number": "workspace:*",
     "@dice-roll-node-app/universal-sdk": "workspace:*",
     "@forklaunch/common": "~0.6.33",
     "@forklaunch/core": "~0.18.6",

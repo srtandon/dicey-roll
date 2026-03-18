@@ -8,21 +8,21 @@ import { OpenTelemetryCollector } from '@forklaunch/core/http';
 import { EntityManager } from '@mikro-orm/core';
 import { Metrics } from '@dice-roll-node-app/monitoring';
 import { RollDiceSvcService } from '../domain/interfaces/rollDiceSvc.interface';
-import { 
-  RollDiceSvcRequestDto, 
-  RollDiceSvcResponseDto 
+import {
+  RollDiceSvcRequestDto,
+  RollDiceSvcResponseDto
 } from '../domain/types/rollDiceSvc.types';
 import { RollDiceSvcRecord } from '../persistence/entities/rollDiceSvcRecord.entity';
 
 // BaseRollDiceSvcService class that implements the RollDiceSvcService interface
-export class BaseRollDiceSvcService implements RollDiceSvcService { 
+export class BaseRollDiceSvcService implements RollDiceSvcService {
   private entityManager: EntityManager;
   private readonly openTelemetryCollector: OpenTelemetryCollector<Metrics>;
 
   constructor(
-    entityManager: EntityManager, 
+    entityManager: EntityManager,
     openTelemetryCollector: OpenTelemetryCollector<Metrics>
-  ) { 
+  ) {
     this.entityManager = entityManager;
     this.openTelemetryCollector = openTelemetryCollector;
   }

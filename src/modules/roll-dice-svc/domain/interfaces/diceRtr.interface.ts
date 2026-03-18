@@ -5,8 +5,10 @@
  */
 
 import {
+  DiceRtrCreateSessionResponseDto,
   DiceRtrRollRequestDto,
   DiceRtrRollResponseDto,
+  DiceRtrStatsQueryDto,
   DiceRtrStatsResponseDto
 } from '../types/diceRtr.types';
 
@@ -18,6 +20,7 @@ import {
 // }
 
 export interface DiceRtrService {
+  diceRtrCreateSession(): Promise<DiceRtrCreateSessionResponseDto>;
   diceRtrRoll(dto: DiceRtrRollRequestDto): Promise<DiceRtrRollResponseDto>;
-  diceRtrStats(): Promise<DiceRtrStatsResponseDto>;
+  diceRtrStats(query?: DiceRtrStatsQueryDto): Promise<DiceRtrStatsResponseDto>;
 }

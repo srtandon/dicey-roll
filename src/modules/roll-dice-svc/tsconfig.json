@@ -1,11 +1,14 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist",
+    "paths": {
+      "@dice-roll-node-app/seeded-random-number": ["../seeded-random-number/index.ts"],
+      "@dice-roll-node-app/seeded-random-number/*": ["../seeded-random-number/*"]
+    }
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "eslint.config.mjs"
-  ]
+  "references": [
+    { "path": "../seeded-random-number" }
+  ],
+  "exclude": ["node_modules", "dist", "eslint.config.mjs"]
 }
